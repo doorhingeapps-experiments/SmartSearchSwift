@@ -12,8 +12,11 @@
 		B92CA3B22E1128F60020B287 /* SmartSearchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92CA3AF2E1128F60020B287 /* SmartSearchApp.swift */; };
 		B92CA3B32E1128F60020B287 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B92CA3AD2E1128F60020B287 /* Assets.xcassets */; };
 		B9EE88FF2E139FBD00AB6ACE /* FetchWebContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EE88FE2E139FBD00AB6ACE /* FetchWebContent.swift */; };
-		B9EE89012E139FC500AB6ACE /* AISimplification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EE89002E139FC500AB6ACE /* AISimplification.swift */; };
+		B9EE89012E139FC500AB6ACE /* AIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EE89002E139FC500AB6ACE /* AIHelpers.swift */; };
 		B9EE89032E139FCC00AB6ACE /* AIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EE89022E139FCC00AB6ACE /* AIResponse.swift */; };
+		B9EE89182E13C23D00AB6ACE /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9EE89172E13C23D00AB6ACE /* MarkdownUI */; };
+		B9EE891A2E13D00D00AB6ACE /* FormatMarkdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EE89192E13D00D00AB6ACE /* FormatMarkdown.swift */; };
+		B9EE891D2E13D91200AB6ACE /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = B9EE891C2E13D91200AB6ACE /* OpenAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,8 +25,9 @@
 		B92CA3AE2E1128F60020B287 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B92CA3AF2E1128F60020B287 /* SmartSearchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSearchApp.swift; sourceTree = "<group>"; };
 		B9EE88FE2E139FBD00AB6ACE /* FetchWebContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchWebContent.swift; sourceTree = "<group>"; };
-		B9EE89002E139FC500AB6ACE /* AISimplification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISimplification.swift; sourceTree = "<group>"; };
+		B9EE89002E139FC500AB6ACE /* AIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIHelpers.swift; sourceTree = "<group>"; };
 		B9EE89022E139FCC00AB6ACE /* AIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIResponse.swift; sourceTree = "<group>"; };
+		B9EE89192E13D00D00AB6ACE /* FormatMarkdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatMarkdown.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +36,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B92CA3AB2E1110B90020B287 /* SwiftSoup in Frameworks */,
+				B9EE891D2E13D91200AB6ACE /* OpenAI in Frameworks */,
+				B9EE89182E13C23D00AB6ACE /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,8 +66,9 @@
 				B92CA3AF2E1128F60020B287 /* SmartSearchApp.swift */,
 				B92CA3AE2E1128F60020B287 /* ContentView.swift */,
 				B9EE88FE2E139FBD00AB6ACE /* FetchWebContent.swift */,
-				B9EE89002E139FC500AB6ACE /* AISimplification.swift */,
+				B9EE89002E139FC500AB6ACE /* AIHelpers.swift */,
 				B9EE89022E139FCC00AB6ACE /* AIResponse.swift */,
+				B9EE89192E13D00D00AB6ACE /* FormatMarkdown.swift */,
 				B92CA3AD2E1128F60020B287 /* Assets.xcassets */,
 			);
 			path = SmartSearch;
@@ -85,6 +92,8 @@
 			name = SmartSearch;
 			packageProductDependencies = (
 				B92CA3AA2E1110B90020B287 /* SwiftSoup */,
+				B9EE89172E13C23D00AB6ACE /* MarkdownUI */,
+				B9EE891C2E13D91200AB6ACE /* OpenAI */,
 			);
 			productName = SmartSearch;
 			productReference = B92CA39B2E110B680020B287 /* SmartSearch.app */;
@@ -116,6 +125,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				B92CA3A92E1110B90020B287 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				B9EE89162E13C23D00AB6ACE /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				B9EE891B2E13D91200AB6ACE /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B92CA39C2E110B680020B287 /* Products */;
@@ -145,7 +156,8 @@
 			files = (
 				B9EE88FF2E139FBD00AB6ACE /* FetchWebContent.swift in Sources */,
 				B92CA3B12E1128F60020B287 /* ContentView.swift in Sources */,
-				B9EE89012E139FC500AB6ACE /* AISimplification.swift in Sources */,
+				B9EE89012E139FC500AB6ACE /* AIHelpers.swift in Sources */,
+				B9EE891A2E13D00D00AB6ACE /* FormatMarkdown.swift in Sources */,
 				B9EE89032E139FCC00AB6ACE /* AIResponse.swift in Sources */,
 				B92CA3B22E1128F60020B287 /* SmartSearchApp.swift in Sources */,
 			);
@@ -369,6 +381,22 @@
 				minimumVersion = 2.8.8;
 			};
 		};
+		B9EE89162E13C23D00AB6ACE /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
+		B9EE891B2E13D91200AB6ACE /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -376,6 +404,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B92CA3A92E1110B90020B287 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
+		};
+		B9EE89172E13C23D00AB6ACE /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9EE89162E13C23D00AB6ACE /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+		B9EE891C2E13D91200AB6ACE /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9EE891B2E13D91200AB6ACE /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -11,11 +11,13 @@
 import SwiftUI
 import WebKit
 import SwiftSoup
+import MarkdownUI
 
 struct ContentView: View {
     let query = "Hello world"
     
     @State var searchResults: [String] = []
+    @State var urlIndexMap: [String: Int] = [:]
     
     @State var htmlResults: [String: String] = [:]
     
@@ -51,9 +53,18 @@ struct ContentView: View {
             } label: {
                 Label("Step 4", systemImage: "circle")
             }
+            
+            Tab(value: 4) {
+                step5
+            } label: {
+                Label("Step 5", systemImage: "circle")
+            }
         }.onAppear() {
             fetchDuckDuckGoResults(query: query) { urls in
                 searchResults = urls
+                urlIndexMap = Dictionary(uniqueKeysWithValues:
+                                    urls.enumerated().map { ($1, $0 + 1) })
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     currentTab = 1
                     
@@ -97,14 +108,33 @@ struct ContentView: View {
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                                 currentTab = 4
                                                 
+//                                                let numbered = simplifiedResults
+//                                                    .sorted { (urlIndexMap[$0.key] ?? .max) <
+//                                                        (urlIndexMap[$1.key] ?? .max) }
+//                                                    .compactMap { kv -> String? in
+//                                                        guard let n = urlIndexMap[kv.key] else { return nil }
+//                                                        return "{\(n)}\n\(kv.value)"
+//                                                    }
+//                                                    .joined(separator: "\n\n")
+                                                
+                                                let formatted = simplifiedResults
+                                                    .sorted { (urlIndexMap[$0.key] ?? .max) < (urlIndexMap[$1.key] ?? .max) }
+                                                    .map { kv in
+                                                        return "{\(kv.key)}\n\(kv.value)"
+                                                    }
+                                                    .joined(separator: "\n\n")
+                                                
                                                 searchSummary(
                                                     inputPrompt:
-"""
-Prompt: \(query)
-
-"""
+                                                """
+                                                Prompt: \(query)
+                                                
+                                                \(formatted)
+                                                """
                                                 ) { result in
-                                                    finalResult = result
+                                                    replaceMarkdownLinksWithFetchedTitles(in: result) { result2 in
+                                                        finalResult = result2
+                                                    }
                                                 }
                                             }
                                         }
@@ -174,9 +204,59 @@ Prompt: \(query)
         }
     }
     
+    @State var thing = false
+    
+    let demoMarkdown = """
+        # Heading 1
+        ## Heading 2
+        ### Heading 3
+        #### Heading 4
+        ##### Heading 5
+        ###### Heading 6
+        
+        Paragraph text
+        
+        ## **Bold Heading 2**
+        
+        `print("Code Block")`
+        
+        - Bullet 1
+        - Bullet 2
+            - Sub-bullet 1
+        
+        > Quote
+        """
+    
     var step5: some View {
-        ScrollView {
-            Text(finalResult)
+        GeometryReader { geo in
+            ScrollView {
+                Toggle("Thing", isOn: $thing)
+                HStack {
+                    if thing {
+                        Markdown(finalResult)
+                            .markdownTextStyle(\.text) {
+                                FontFamilyVariant(.normal)
+                                FontFamily(.system(.rounded))
+                                ForegroundColor(Color.white)
+                            }
+                            .markdownTextStyle(\.link) {
+                                FontFamilyVariant(.normal)
+                                FontFamily(.system(.rounded))
+                                UnderlineStyle(.single)
+                                ForegroundColor(Color.white)
+                            }
+                    }
+                    else {
+                        Text(finalResult)
+                    }
+                    
+                    Spacer()
+                }.padding(20)
+            }.frame(width: geo.size.width)
+        }.background {
+            LinearGradient(colors: [Color.blue, Color.purple], startPoint: .bottomLeading, endPoint: .topTrailing)
+                .opacity(0.5)
+                .ignoresSafeArea()
         }
     }
     

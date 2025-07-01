@@ -31,7 +31,7 @@ func fetchDuckDuckGoResults(query: String, completion: @escaping ([String]) -> V
             let anchors = try doc.select("a.result__a").array()
             var results = [String]()
 
-            for anchor in anchors.prefix(10) {
+            for anchor in anchors.prefix(5) {
                 let href = try anchor.attr("href")
                 let full = href.hasPrefix("http") ? href : "https://duckduckgo.com\(href)"
                 if let comps = URLComponents(string: full),

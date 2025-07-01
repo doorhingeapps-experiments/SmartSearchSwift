@@ -41,3 +41,33 @@ func simplify(inputPrompt: String, completion: @escaping (String) -> Void) {
     }
 }
 
+func attribution(inputPrompt: String, completion: @escaping (String) -> Void) {
+    var model = SystemLanguageModel.default
+    
+    switch model.availability {
+    case .available:
+        Task {
+            let instructions = "Your job is to examine text from a website and provide attribution details to cite the source. This should be breif while including as much relavant information as possible."
+            
+            let session = LanguageModelSession(instructions: instructions)
+            
+            let response: String
+            do {
+                response = try await session.respond(to: inputPrompt).content
+                completion(response)
+            } catch {
+                completion("Error: \(error.localizedDescription)")
+            }
+        }
+        
+    case .unavailable(.deviceNotEligible):
+        completion("Warning: Device not eligible for Apple Intelligence.")
+    case .unavailable(.appleIntelligenceNotEnabled):
+        completion("Warning: Apple Intelligence is disabled.")
+    case .unavailable(.modelNotReady):
+        completion("Warning: Apple Intelligence model not installed.")
+    case .unavailable(_):
+        completion("Warning: Apple Intelligence unavailable for an unknown reason.")
+    }
+}
+
