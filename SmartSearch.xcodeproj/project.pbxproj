@@ -6,23 +6,32 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B92CA3AB2E1110B90020B287 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = B92CA3AA2E1110B90020B287 /* SwiftSoup */; };
+		B92CA3B12E1128F60020B287 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92CA3AE2E1128F60020B287 /* ContentView.swift */; };
+		B92CA3B22E1128F60020B287 /* SmartSearchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92CA3AF2E1128F60020B287 /* SmartSearchApp.swift */; };
+		B92CA3B32E1128F60020B287 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B92CA3AD2E1128F60020B287 /* Assets.xcassets */; };
+		B9EE88FF2E139FBD00AB6ACE /* FetchWebContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EE88FE2E139FBD00AB6ACE /* FetchWebContent.swift */; };
+		B9EE89012E139FC500AB6ACE /* AISimplification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EE89002E139FC500AB6ACE /* AISimplification.swift */; };
+		B9EE89032E139FCC00AB6ACE /* AIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EE89022E139FCC00AB6ACE /* AIResponse.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B92CA39B2E110B680020B287 /* SmartSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B92CA3AD2E1128F60020B287 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B92CA3AE2E1128F60020B287 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B92CA3AF2E1128F60020B287 /* SmartSearchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSearchApp.swift; sourceTree = "<group>"; };
+		B9EE88FE2E139FBD00AB6ACE /* FetchWebContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchWebContent.swift; sourceTree = "<group>"; };
+		B9EE89002E139FC500AB6ACE /* AISimplification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISimplification.swift; sourceTree = "<group>"; };
+		B9EE89022E139FCC00AB6ACE /* AIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		B92CA39D2E110B680020B287 /* SmartSearch */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SmartSearch;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		B92CA3982E110B680020B287 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B92CA3AB2E1110B90020B287 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,7 +41,7 @@
 		B92CA3922E110B680020B287 = {
 			isa = PBXGroup;
 			children = (
-				B92CA39D2E110B680020B287 /* SmartSearch */,
+				B92CA3B02E1128F60020B287 /* SmartSearch */,
 				B92CA39C2E110B680020B287 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +52,19 @@
 				B92CA39B2E110B680020B287 /* SmartSearch.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B92CA3B02E1128F60020B287 /* SmartSearch */ = {
+			isa = PBXGroup;
+			children = (
+				B92CA3AF2E1128F60020B287 /* SmartSearchApp.swift */,
+				B92CA3AE2E1128F60020B287 /* ContentView.swift */,
+				B9EE88FE2E139FBD00AB6ACE /* FetchWebContent.swift */,
+				B9EE89002E139FC500AB6ACE /* AISimplification.swift */,
+				B9EE89022E139FCC00AB6ACE /* AIResponse.swift */,
+				B92CA3AD2E1128F60020B287 /* Assets.xcassets */,
+			);
+			path = SmartSearch;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -60,11 +82,9 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				B92CA39D2E110B680020B287 /* SmartSearch */,
-			);
 			name = SmartSearch;
 			packageProductDependencies = (
+				B92CA3AA2E1110B90020B287 /* SwiftSoup */,
 			);
 			productName = SmartSearch;
 			productReference = B92CA39B2E110B680020B287 /* SmartSearch.app */;
@@ -94,6 +114,9 @@
 			);
 			mainGroup = B92CA3922E110B680020B287;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B92CA3A92E1110B90020B287 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B92CA39C2E110B680020B287 /* Products */;
 			projectDirPath = "";
@@ -109,6 +132,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B92CA3B32E1128F60020B287 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +143,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9EE88FF2E139FBD00AB6ACE /* FetchWebContent.swift in Sources */,
+				B92CA3B12E1128F60020B287 /* ContentView.swift in Sources */,
+				B9EE89012E139FC500AB6ACE /* AISimplification.swift in Sources */,
+				B9EE89032E139FCC00AB6ACE /* AIResponse.swift in Sources */,
+				B92CA3B22E1128F60020B287 /* SmartSearchApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +359,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B92CA3A92E1110B90020B287 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.8;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B92CA3AA2E1110B90020B287 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B92CA3A92E1110B90020B287 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B92CA3932E110B680020B287 /* Project object */;
 }
