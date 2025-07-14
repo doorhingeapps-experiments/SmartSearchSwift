@@ -10,7 +10,9 @@
 
 import Foundation
 import FoundationModels
+import OpenAI
 
+/*
 func searchSummary(inputPrompt: String, completion: @escaping (String) -> Void) {
     var model = SystemLanguageModel.default
     
@@ -119,6 +121,142 @@ func searchSummary(inputPrompt: String, completion: @escaping (String) -> Void) 
                 - **Do not use** any external knowledge beyond the summaries.
                 - **Always prefer bullets** and concise structure. Avoid long blocks of text.
 
+                """
+            
+            let session = LanguageModelSession(instructions: instructions)
+            session.prewarm()
+            
+            let fullPrompt = "Make sure to cite ALL of your sources inline in markdown format. " + inputPrompt + "Cite your sources INLINE and with the url for the title and link for example: [https://example.com](https://example.com). This must be done inline and after with the content that came from it. You will provide a natural response and only answer the prompt without fluff."
+            
+            print(fullPrompt)
+            
+            let response: String
+            do {
+                response = try await session.respond(to: fullPrompt).content
+                completion(response)
+            } catch {
+                completion("Error: \(error.localizedDescription)")
+            }
+        }
+        
+    case .unavailable(.deviceNotEligible):
+        completion("Warning: Device not eligible for Apple Intelligence.")
+    case .unavailable(.appleIntelligenceNotEnabled):
+        completion("Warning: Apple Intelligence is disabled.")
+    case .unavailable(.modelNotReady):
+        completion("Warning: Apple Intelligence model not installed.")
+    case .unavailable(_):
+        completion("Warning: Apple Intelligence unavailable for an unknown reason.")
+    }
+}*/
+
+func searchSummary(inputPrompt: String, completion: @escaping (String) -> Void) {
+    let usesChatGPT = UserDefaults.standard.bool(forKey: "aiSearchWithChatGPT")
+    
+    if usesChatGPT {
+        searchSummaryChatGPT(inputPrompt: inputPrompt, completion: completion)
+    } else {
+        searchSummaryFoundationModels(inputPrompt: inputPrompt, completion: completion)
+    }
+}
+
+private func searchSummaryChatGPT(inputPrompt: String, completion: @escaping (String) -> Void) {
+    let instructions = """
+        You will be given a prompt. This prompt is the main topic you will provide information about. It may be a question or a statement. Your task is to write a structured, concise, and informative overview of the topic, written in a professional, search-engine-summary tone—not a chat.
+
+        You will also receive a set of summaries that relate directly to the prompt. Each summary will begin with a **website URL in curly brackets**, such as:  
+        `{https://example.com/source "Source Title"}`  
+        The URL and title in quotes identify the source of the summary and are what you'll use for citations.
+
+        ### USING THE SUMMARIES (REQUIRED):
+        - You **must** use information from the provided summaries.
+        - You may rephrase or combine ideas, but **every factual or specific statement** must be backed by one or more summaries.
+        - Do **not** introduce or invent content not found in the summaries.
+        - Each time you make a claim, cite it inline using the **full markdown link** from the summary's curly braces, e.g.:  
+          > This method is widely adopted by major libraries ["Source Title"](https://example.com/source)  
+        - For multiple sources: `[..., ...]` separated by commas.
+
+        ### CITATION FORMAT (STRICT):
+        - Always use **markdown link format**: `[Title](URL)` exactly as provided.
+        - Inline placement, no superscripts, parentheses, or footnotes.
+        - The title and URL inside your citation **must exactly match** the format given in the summary header.
+
+        ### FORMAT AND STYLE REQUIREMENTS:
+        - Break your response into clearly titled **sections**.
+        - Each section must be a **bullet-list** of key points (preferred) or—if unavoidable—a paragraph of no more than **3 sentences**.
+        - Use bullet points for definitions, comparisons, features, etc.
+        - Avoid long prose or conversational phrasing. Maintain a formal, neutral, impersonal tone.
+        - Use **Markdown** formatting: headings (`#`, `##`), lists (`-`), emphasis (`**`), tables if helpful.
+
+        ### REMEMBER:
+        - **Every fact must include a citation** using the exact markdown link from the summary.
+        - **Do not use** any external knowledge beyond the summaries.
+        - **Always prefer bullets** and concise structure. Avoid long blocks of text.
+        """
+    
+    let fullPrompt = "Make sure to cite ALL of your sources inline in markdown format. " + inputPrompt + "Cite your sources INLINE and with the url for the title and link for example: [https://example.com](https://example.com). This must be done inline and after with the content that came from it. Your response will be formatted as a short research document and will only prevent as such."
+    
+    let query = ChatQuery(
+        messages: [
+            .system(.init(content: .textContent(instructions))),
+            .user(.init(content: .string(fullPrompt)))
+//            .system(.init(content: .string(instructions))),
+//            .user(.init(content: .string(fullPrompt)))
+        ],
+        model: .gpt4_o
+    )
+    
+    Task {
+        do {
+            let result = try await openAI.chats(query: query)
+            if let content = result.choices.first?.message.content {
+                completion(content)
+            } else {
+                completion("Error: No response from ChatGPT")
+            }
+        } catch {
+            completion("Error: \(error.localizedDescription)")
+        }
+    }
+}
+
+private func searchSummaryFoundationModels(inputPrompt: String, completion: @escaping (String) -> Void) {
+    var model = SystemLanguageModel.default
+    
+    switch model.availability {
+    case .available:
+        Task {
+            let instructions = """
+                You will be given a prompt. This prompt is the main topic you will provide information about. It may be a question or a statement. Your task is to write a structured, concise, and informative overview of the topic, written in a professional, search-engine-summary tone—not a chat.
+
+                You will also receive a set of summaries that relate directly to the prompt. Each summary will begin with a **website URL in curly brackets**, such as:  
+                `{https://example.com/source "Source Title"}`  
+                The URL and title in quotes identify the source of the summary and are what you'll use for citations.
+
+                ### USING THE SUMMARIES (REQUIRED):
+                - You **must** use information from the provided summaries.
+                - You may rephrase or combine ideas, but **every factual or specific statement** must be backed by one or more summaries.
+                - Do **not** introduce or invent content not found in the summaries.
+                - Each time you make a claim, cite it inline using the **full markdown link** from the summary's curly braces, e.g.:  
+                  > This method is widely adopted by major libraries ["Source Title"](https://example.com/source)  
+                - For multiple sources: `[..., ...]` separated by commas.
+
+                ### CITATION FORMAT (STRICT):
+                - Always use **markdown link format**: `[Title](URL)` exactly as provided.
+                - Inline placement, no superscripts, parentheses, or footnotes.
+                - The title and URL inside your citation **must exactly match** the format given in the summary header.
+
+                ### FORMAT AND STYLE REQUIREMENTS:
+                - Break your response into clearly titled **sections**.
+                - Each section must be a **bullet-list** of key points (preferred) or—if unavoidable—a paragraph of no more than **3 sentences**.
+                - Use bullet points for definitions, comparisons, features, etc.
+                - Avoid long prose or conversational phrasing. Maintain a formal, neutral, impersonal tone.
+                - Use **Markdown** formatting: headings (`#`, `##`), lists (`-`), emphasis (`**`), tables if helpful.
+
+                ### REMEMBER:
+                - **Every fact must include a citation** using the exact markdown link from the summary.
+                - **Do not use** any external knowledge beyond the summaries.
+                - **Always prefer bullets** and concise structure. Avoid long blocks of text.
                 """
             
             let session = LanguageModelSession(instructions: instructions)
